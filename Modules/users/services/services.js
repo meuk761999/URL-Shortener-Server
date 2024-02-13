@@ -85,7 +85,7 @@ const loginUserSer = async (req) => {
                 message: "Login Successfull",
                 token: jWtoken,
                 data: {
-                  availablePlan: null,
+                  userName: req.body.userName,
                 },
               });
 

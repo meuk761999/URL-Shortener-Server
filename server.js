@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-var http = require("http").Server(app);
+var https = require("https");
 app.use(cors());
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 app.use(express.json());
 const { APP_PORT, MONGO_URI } = require('./config')
 const path = require("path");
+const fs = require("fs");
 var logger = require("morgan");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -47,7 +48,7 @@ app.get("/:shortUrl", async (req, res) => {
     try {
       const originalProjection = { _id: 0, originalUrl: 1 };
       const originalUrl = await UrlSch.findOneAndUpdate({shortUrl: req.params.shortUrl},{$push:{visitAnalytics:{timestamp:Date.now()}}} , originalProjection);
-      if (!originalUrl.originalUrl)
+      if (!originalUrl?.originalUrl)
       return res.status(404).json({ error: "Not Found", });
         return res.redirect(originalUrl.originalUrl);
     } catch (err) {
@@ -59,9 +60,14 @@ app.get("/:shortUrl", async (req, res) => {
 })
 // Routes end
 
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname,'cert','key.pem' )),
+  cert: fs.readFileSync(path.join(__dirname,'cert','cert.pem'))
+};
 
-
-http.listen(APP_PORT, () => {
+// https.listen(APP_PORT, () => {
+//   console.log(`HTTP Server is running ${APP_PORT}`);
+// });
+https.createServer(httpsOptions,app).listen(APP_PORT, () => {
   console.log(`HTTP Server is running ${APP_PORT}`);
 });
-

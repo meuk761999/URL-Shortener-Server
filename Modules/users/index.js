@@ -10,8 +10,8 @@ const {userRegValidator,userLoginValidator} = require('./middlewares');
 
 console.log("--------inside the index/users routes ----> 11")
 
-router.post("/",userRegValidator, createUser)
-router.get("/", userLoginValidator,loginUser)
+router.post("/register",userRegValidator, createUser)
+router.post("/login", userLoginValidator,loginUser)
 router.put("/", updateUser)
 router.delete("/", deleteUser)
 

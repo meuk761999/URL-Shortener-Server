@@ -11,7 +11,7 @@ const createURL = async (req, res) => {
         return res.status(data.status).json(data);
     } catch (err) {
         console.log("inside the createProducts Error--->", err.message);
-        return res.status(err.status).json({ error: err.message ,shortUrl:err.data.shortUrl });
+        return res.status(err.status).json(err.data);
     }
 };
 const availableURL = async (req, res) => {

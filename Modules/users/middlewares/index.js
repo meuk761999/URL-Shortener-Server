@@ -5,8 +5,8 @@ const {JWT_SECRET} = require("../../../config");
 const userRegValidator = async(req,res,next)=>{
     try {
         try {
-           const result= await userRegJoiSchema.validateAsync(req.body);
-           req.body=result;
+            const result= await userRegJoiSchema.validateAsync(req.body);
+            req.body=result;
         } catch (err) {
             if(err instanceof ValidationError)
             return res.status(400).json({message:err.message})
@@ -16,7 +16,6 @@ const userRegValidator = async(req,res,next)=>{
         return res.status(409).json({message: "Already Exist"});
         next();
     } catch (err) {
-    console.log("L-5, verfiy---->", err.message);
     return res.status(504).json({
       message: "Something went wrong",
     });
@@ -26,9 +25,11 @@ const userRegValidator = async(req,res,next)=>{
 const userLoginValidator = async(req,res,next)=>{
     try {
         try {
+            console.log("L-28",req.body);
            const result= await userLoginJoiSchema.validateAsync(req.body);
            req.body.userEmail=result.userEmail;
         } catch (err) {
+            console.log("L-33",err.message)
             if(err instanceof ValidationError)
             return res.status(400).json({message:"Email or Password Invalid"})
         }

@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const userRegJoiSchema = Joi.object({
   userEmail: Joi.string().email().lowercase().required().max(320),
-  userName: Joi.string().alphanum().min(3).max(30).required(),
+  userName: Joi.string().min(3).max(30).required(),
   userPassword: Joi.string().pattern(new RegExp('^([a-zA-Z0-9@*#]{8,15})$')).required(),
   reUserPassword:Joi.ref('userPassword')
 });

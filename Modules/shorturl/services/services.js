@@ -38,7 +38,7 @@ const createURLSer = async (req) => {
         return reject({
           status: 409,
           message: "Already Exist",
-          data:{shortUrl:urlExist.shortUrl}
+          data:{data:{shortUrl:urlExist.shortUrl}}
         });
 
         const savedUrl = await UrlSch.create(newURL);
