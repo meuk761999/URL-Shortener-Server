@@ -38,7 +38,7 @@ const createURLSer = async (req) => {
         return reject({
           status: 409,
           message: "Already Exist",
-          data:{data:{shortUrl:urlExist.shortUrl}}
+          data:{data:{shortUrl:urlExist?.shortUrl,urlId:urlExist?._id}}
         });
 
         const savedUrl = await UrlSch.create(newURL);
@@ -53,7 +53,7 @@ const createURLSer = async (req) => {
           return resolve({
             status: 201,
             message: "Short URL Created Successfully",
-            data: {shortUrl:savedUrl.shortUrl},
+            data: {shortUrl:savedUrl?.shortUrl,urlId:savedUrl?._id},
           });
         }
       }
@@ -157,6 +157,7 @@ const updateURLSer = async (req) => {
 const deleteURLSer = async (req) => {
   return new Promise(async (resolve, reject) => {
     try {
+      console.log("L-160----------->",req)
       const {userId, urlId} = req.body;
       const deletedUrl = await UrlSch.findOneAndDelete({ _id:urlId,userId:userId});
       if (!deletedUrl) {
